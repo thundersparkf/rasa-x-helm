@@ -18,7 +18,7 @@ server {
     proxy_set_header X-Forwarded-For $remote_addr;
     proxy_set_header X-Forwarded-Proto $scheme;
     proxy_set_header Host $host;
-    proxy_pass {{ include "rasa-bot.production.url" .}};
+    proxy_pass {{ include "rasa-bot.production.url" .}}/;
   }
 
   # avoid users having to change how they configure
@@ -42,7 +42,7 @@ server {
     proxy_pass {{ include "rasa-bot.production.url" .}}/socket.io;
   }
 
-  location /api/ws {
+  location /api/ws/ {
     # following https://www.serverlab.ca/tutorials/linux/web-servers-linux/how-to-configure-nginx-for-websockets/
     # This directive converts the incoming connection to HTTP 1.1, which is
     # required to support WebSockets. The older HTTP 1.0 spec does not provide support
@@ -58,7 +58,7 @@ server {
     proxy_set_header X-Forwarded-For $remote_addr;
     proxy_set_header X-Forwarded-Proto $scheme;
     proxy_set_header Host $host;
-    proxy_pass http://docker-rasax-api/api/ws;
+    proxy_pass http://docker-rasax-api/api/ws/;
   }
 
   location / {
